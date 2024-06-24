@@ -29,11 +29,11 @@ app.use(flash());
 const port = process.env.PORT;
 
 // Views
-app.set('views', './views');
+app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 
 // public folder
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/public`));
 
 // router client
 const router = require("./routes/client/index.route");
@@ -56,3 +56,4 @@ app.listen(port, () => {
 
 // Hiện tai ht tiếp diễn vẫn có thể tiếp diễn ở lai
 // Quá khư ht tiếp diễn có thể tiếp tục xảy ra ở trong quá khư k '
+console.log(__dirname);
