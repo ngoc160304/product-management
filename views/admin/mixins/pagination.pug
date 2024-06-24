@@ -1,0 +1,13 @@
+mixin pagination(pagination)
+     div.pagination-cs
+        ul.pagination-list
+            if(pagination.currentPage > 1)
+                li 
+                    button(button-pagination=(pagination.currentPage - 1)) Trang trước
+            -for(var i = 1; i <= pagination.totalPage; i++)
+                li
+                    button(class=`${pagination.currentPage == i ? ("active") : ""}` button-pagination=i) #{i} 
+        
+            if(pagination.currentPage < pagination.totalPage) 
+                li 
+                    button(button-pagination=(pagination.currentPage + 1)) Trang sau

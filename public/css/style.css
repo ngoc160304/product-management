@@ -1,0 +1,95 @@
+/* Header */
+.header {
+    padding: 20px;
+    border: 1px solid #eee;
+    position: sticky;
+    z-index: 999;
+}
+.header .inner-logo .inner-img {
+    width: 160px;
+    height: auto;
+}
+.header .inner-menu {
+    display: flex;
+    justify-content: flex-end;
+}
+.header .inner-menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+
+}
+.header .inner-menu ul a {
+    text-decoration: none;
+    color: #000;
+    margin-left: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.header .inner-menu ul a.active {
+    color: #E72929;
+}
+/* Header End */
+
+/* Product list */
+.product-list .inner-wrap {
+    margin-top: 16px;
+    background: #f8efe7;
+    padding: 16px;
+    border-radius: 10px;
+}
+.product-list .inner-item {
+    background: #fff;
+    padding: 18px 0 10px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+}
+.product-list .inner-img img {
+    object-fit: contain;
+    aspect-ratio: 4 / 4;
+    width: 100%;
+    height: auto;
+}
+.product-list .inner-item:hover .inner-img img {
+    transition: all 0.3s;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+.product-list .inner-content {
+    text-align: center;
+    margin-top: 10px
+}
+.product-list .inner-content .inner-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.product-list .inner-item:hover .inner-content .inner-title {
+    transition: all 0.3s;
+    color: #288ad6;
+}
+.product-list .inner-content .inner-price-new {
+    color: #d0021c;
+    font-size: 18px;
+    font-weight: 700;
+}
+.product-list .inner-content .inner-price-old {
+    display: flex;
+    justify-content: center;
+}
+.product-list .inner-price-old .inner-price {
+    margin-right: 12px;
+    text-decoration: line-through;
+    color: #a4a4a4;
+    font-size: 14px;
+}
+.product-list .inner-content .inner-discount {
+    background: #fff0e9;
+    padding: 2px;
+    color: #eb5757;
+    font-weight: 700;
+    border-radius: 8px;
+    font-size: 14px;
+}
+/* Product list end */

@@ -1,0 +1,141 @@
+extend ../../layouts/default.pug
+include ../../mixins/filter-search.pug
+include ../../mixins/search-form.pug
+include ../../mixins/pagination.pug
+include ../../mixins/change-multi.pug
+
+block main
+    h1.inner-title-head Danh sách sản phẩm
+    if(messages.success)
+        .message.success
+            div(
+                class="alert alert-primary" 
+                role="alert"
+                show-alert
+                time="3000"
+            ) #{messages.success}
+    //- filter and search
+    .filter-status
+        .card
+            h6.card-header Bộ lọc và tìm kiếm
+            .card-body
+                .row 
+                    .col-6 
+                        +filter-search(filterSearch)
+                    .col-6
+                        +search-form(keyword)
+    //- filter and search end
+    .row.d-flex.justify-content-between.mt-3.me-0
+        .col-auto
+            +change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+        .col-3
+            a(
+                class="btn btn-outline-primary"
+                href="/admin/products/create"
+            ) + Thêm mới sản phẩm
+        //- đường link có dấy / đầu tiên sẽ lấy từ dấu / đấy không nối vào link cũ
+        //- Ví dụ trang hiện lại là admin/products còn a có href = "admin/products/" thì sẽ nối thành admin/admin/products còn k thì k nối
+    //- Table product list
+    table(class="table table-list-product mt-3")
+        thead
+            tr
+                th 
+                    input(
+                        type="checkbox"
+                        class="form-check-input"
+                        name="checkall"
+                    )
+                th STT
+                th Hình ảnh
+                th Tiêu đề
+                th Mức giá
+                th Vị trí
+                th Trạng thái
+                th Hành động
+        tbody
+            each item, index in products
+                tr
+                    td 
+                        input(
+                            type="checkbox"
+                            name="id"
+                            class="form-check-input"
+                            value=item.id
+                        )
+                    td #{index + 1}
+                    td 
+                        img(
+                            src=item.thumbnail
+                            alt=item.title
+                            class="inner-img"
+                        )
+                    td #{item.title}
+                    td #{item.price}$
+                    td
+                        input(
+                            type="number"
+                            class="form-control"
+                            min=1
+                            max=200
+                            name="position"
+                            change-position
+                            value=item.position
+                            style="width : 60px"
+                        )
+                    td
+                        if(item.status == "active")
+                            butotn(
+                                type="button"
+                                class="badge text-bg-primary"
+                                button-change-status
+                                id-item=item.id 
+                                status=item.status
+                            ) Đang hoạt động
+                        else 
+                            butotn(
+                                type="button"
+                                class="badge text-bg-warning"
+                                button-change-status
+                                id-item=item.id 
+                                status=item.status
+                            ) Dừng hoạt động
+                    td
+                        a(
+                            type="button"
+                            class="btn btn btn-outline-secondary btn-sm inner-btn me-1"
+                            href=`products/details/${item.slug}`
+                        ) <i class="fa-regular fa-eye"></i>
+                        a(
+                            type="button" 
+                            class="btn btn-outline-primary btn-sm inner-btn me-1"
+                            href=`products/edit/${item.id}`
+                        ) <i class="fa-solid fa-pen-to-square"></i>
+                        button(
+                            type="button" 
+                            class="btn btn-outline-danger btn-sm inner-btn"
+                            data-id-delete-item=item.id
+                        ) <i class="fa-solid fa-trash"></i>
+    //- Table product list end
+
+    //- form submit status
+    form(
+        action=""
+        id="change-status"
+        data-path=`${prefixAdmin}/products/change-status`
+        method="POST"
+    )
+    //- form submit status end
+    
+    //- form delete 
+    form(
+        action=""
+        id="form-delete-item"
+        data-path=`${prefixAdmin}/products/delete`
+        method="POST"
+    )
+    //- form delete end
+
+    //- Paginaton
+    +pagination(pagination)
+    //- Pagination end
+    script(src="/admin/js/product.js")

@@ -1,0 +1,18 @@
+mixin change-multi(path)
+    form(
+        class="input-group"
+        action=path
+        method="post"
+        form-change-multi
+    ) 
+        select(class="form-select input-group-select" name="type")
+            option(disabled selected) --Chọn hành động--
+            option(value="active") Hoạt động
+            option(value="inactive") Ngừng hoạt động
+            option(value="deleteall") Xóa sản phẩm đã chọn
+            option(value="change-position") Thay đổi vị trí
+        input(
+            class="d-none"
+            name="ids"
+        )
+        button(type="submit" class="btn btn-outline-primary") Áp dụng

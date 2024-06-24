@@ -1,0 +1,3 @@
+mixin filter-search(filterSearch)
+    each item in filterSearch
+        button(type="button" class=`btn btn-outline-primary ${item.class} ms-1` button-status=item.status) #{item.name}
