@@ -1,0 +1,33 @@
+extend ../../layouts/default.pug
+block main
+    if(role.permissions.includes("roles_edit"))
+        h1(class="mb-4") Tạo nhóm quyền
+        form(
+            action=`${prefixAdmin}/roles/edit/${record.id}?_method=PATCH`
+            method="POST"
+        )
+            .mt-1 
+                label(for="title" class="form-label") Tiêu đề :
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    required
+                    value=record.title
+                ) 
+            .mt-2
+                label(for="desc" class="form-label") Tiêu đề :
+                input(
+                    type="text"
+                    class="form-control"
+                    id="desc"
+                    name="description"
+                    value=record.description
+                ) 
+            .mt-2
+                input(
+                    type="submit"
+                    value="Chỉnh sửa"
+                    class="btn btn-outline-primary"
+                )

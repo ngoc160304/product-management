@@ -1,0 +1,112 @@
+extend ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alert-error(messages.error)
+    +alert-success(messages.success)
+    h1(class="fs-4") #{user.fullname}
+    form(
+        action=`${prefixAdmin}/my-account/edit?_method=PATCH`
+        method="POST"
+        enctype="multipart/form-data"
+
+    )
+        .mt-2 
+            label(class="form-label" for="fullname") Họ và tên :
+                //- required
+            input(
+                type="text"
+                class="form-control"
+                name="fullname"
+                id="fulname"
+                value=user.fullname
+            )
+        .mt-2 
+            label(class="form-label" for="email") Email :
+            input(
+                type="email"
+                class="form-control"
+                name="email"
+                id="email"
+                value=user.email
+            )
+        .mt-2 
+            label(class="form-label" for="phone") Số điện thoại :
+            input(
+                type="phone"
+                class="form-control"
+                name="phone"
+                id="phone"
+                value=user.phone
+            )
+        if(role.permissions.includes("accounts_edit")) 
+            .mt-2
+                label(for="category" class="form-label") Nhóm quyền :
+                select(
+                    class="form-select" 
+                    aria-label="Default select example"
+                    name="role_id"
+                )
+                    option(selected) --Chọn nhóm quyền--
+                    each role in roles
+                        option(
+                            value=role.id
+                            selected=user.role_id == role.id ? true : false
+                        ) #{role.title}
+        .mt-2
+            label(for="avatar" class="form-label mt-1") Hỉnh ảnh :
+            input(
+                class="form-control d-block"
+                type="file"
+                id="avatar"
+                name="avatar"
+                accept="image/*"
+                upload-image-input
+            )
+            if(user.avatar)
+                div(
+                    class="preview-img"
+                )
+                    img(
+                        upload-image-preview
+                        src=user.avatar
+                    )
+                    button(
+                        type="button"
+                        class="btn btn-outline-danger"
+                        btn-delete-image-preview
+                    ) Xóa
+        .mt-2 
+            label(class="form-label d-block mb-1 mt-1") Trạng thái :
+            .form-check.form-check-inline
+                input(
+                    class="form-check-input"
+                    type="radio"
+                    name="status"
+                    id="active"
+                    value="active"
+                    checked=user.status == "active" ? true : false
+                )
+                label(class="form-check-label" for="active") Hoạt động
+            .form-check.form-check-inline
+                input(
+                    class="form-check-input"
+                    type="radio"
+                    name="status"
+                    id="inactive"
+                    value="inactive"
+                    checked=user.status == "inactive" ? true : false
+                )
+                label(class="form-check-label" for="inactive") Ngừng hoạt động
+        .mt-2 
+            .row.justify-content-between.balance-margin
+                .col-2
+                    button(
+                        type="submit"
+                        class="btn btn-primary"
+                    ) Cập nhật
+                .col-2
+                    a(
+                        href=`${prefixAdmin}/my-account/edit-password`
+                        class="btn btn-primary"
+                    ) Thay đổi mật khẩu

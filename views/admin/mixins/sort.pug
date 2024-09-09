@@ -1,0 +1,9 @@
+mixin sort()
+    label(class="form-label" for="select-sort") Sắp xếp :
+    select(class="form-select form-select-sm" aria-label='Small select example' id="select-sort")
+        option(value='position-desc') mặc định
+        option(value='position-asc') Vị trí tăng dần
+        option(value='price-desc') Giá cao đên thấp
+        option(value='price-asc') Giá thấp đến cao
+        option(value='title-asc') Tiêu đề từ A - Z
+        option(value='title-desc') Tiêu đề từ Z - A

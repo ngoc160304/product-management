@@ -1,11 +1,58 @@
+.balance-margin {
+    margin: 0 -10px;
+}
+
 /* Header */
 .header {
-    padding: 11px 5px;
+    height: 80px;
+    padding: 11px 15px;
     border-bottom: 1px solid #eee;
     position: sticky;
     z-index: 999;
     top: 0;
     background-color: #fff;
+}
+.header .inner-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.header .inner-avatar .inner-img {
+    position: relative;
+}
+.header .inner-avatar .inner-img img {
+    width: 50px;
+    border: 1px solid;
+    border-radius: 100%;
+    position: relative;
+    z-index: 9999;
+}
+/* .header .inner-avatar .inner-img:hover ul{
+    display: block;
+} */
+.header .inner-avatar ul {
+    position: absolute;
+    right: 25px;
+    width: 150px;
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 4px;
+    display: none;
+}
+.header .inner-avatar ul li {
+    border-bottom: 1px solid #ddd;
+}
+.header .inner-avatar ul li a {
+    display: inline-block;
+    color: #000;
+    text-decoration: none;
+    margin-bottom: 3px;
 }
 /* Header end */
 
@@ -116,11 +163,7 @@
 /* Show alert end */
 
 
-/* Form create product */
-#form-create-product .row {
-    margin: 0 -10px;
-}
-/* Form create product end */
+
 
 /* preview img */
 .preview-img:has(img[src=""]) {
@@ -179,3 +222,5 @@
 /* Table product detail end */
 
 /* page admin/products/detail/:slug end*/
+
+

@@ -1,0 +1,39 @@
+extend ../../layouts/default.pug
+block main 
+    .container 
+        .row.justify-content-center.mt-3
+            .col-5 
+                .payment-success
+                    .inner-consignee-info.mb-4
+                        h1(class="fs-4 mb-3") Thông tin người nhaanj
+                        div(class="inner-content")
+                            table(class="table table-bordered")
+                                tbody 
+                                    tr 
+                                        th Họ và tên 
+                                        td #{order.consignee_info.fullname}
+                                    tr 
+                                        th Số điện thoại
+                                        td #{order.consignee_info.phone}
+                                    tr 
+                                        th Địa chỉ
+                                        td #{order.consignee_info.address}
+                    .inner-payment-info 
+                        h1(class="fs-4 mb-3") Thông tin thanh toán
+                        div(class="inner-content")
+                            table(class="table table-bordered")
+                                tbody 
+                                    tr 
+                                        th Ngân hàng
+                                        td #{order.payment_info.bank_code}
+                                    tr 
+                                        th Số tiền
+                                        td #{order.payment_info.amount}
+                                    tr 
+                                        th Thời gian mua
+                                        td #{order.payment_info.purchase_date}
+
+                        
+
+                                    
+                

@@ -1,0 +1,46 @@
+extend ../../layouts/default.pug
+block main 
+    .container 
+        .checkout-success
+            .row 
+                .col-4.mb-4
+                    h1(class="fs-4 mb-3") Thông tin người nhận
+                    .inner-consignee
+                        div(class="inner-info inner-name") 
+                            p <b> Tên người nhận </b> : <span>#{order.consignee_info.fullname}</span>
+                        div(class="inner-info inner-phone") 
+                            p <b> Số điện thoại </b> : <span>#{order.consignee_info.phone}</span>
+                        div(class="inner-info inner-name") 
+                            p <b> Địa chỉ </b> : <span>#{order.consignee_info.fullname}</span>
+                .col-12 
+                    .inner-product
+                        h2(class="fs-4 mb-4") Thông tin đơn hàng
+                        table.table.cart-user
+                            thead
+                                tr
+                                    th Hình ảnh
+                                    th Sản phẩm
+                                    th Đơn giá
+                                    th.text-center Số lượng 
+                                    th.text-center Số tiền
+                            tbody
+                                if(order.products.length)
+                                    each item in order.products
+                                        tr
+                                            
+                                            td.inner-img
+                                                img(src=item.product.thumbnail alt="" width="150px")
+                                            td.inner-title
+                                                a(href=`/products/detail/${item.product.slug}`) #{item.product.title}
+                                            td.inner-price
+                                                del #{item.product.price}$
+                                                span #{item.product.priceNew}$
+                                            td.product-detail.text-center #{item.quantity}
+                                            
+                                            td.inner-price-new.text-center #{item.totalPrice}$
+                        div(class="order-checkout")
+                            .row.justify-content-between
+                                div(class="inner-payment d-flex justify-content-end align-items-center")
+                                    .inner-total-price.d-flex.align-items-center.justify-content-center.col-3 Tổng thanh toán(#{order.products.length ? order.products.length : 0} Sản phẩm) <span class="ms-3">#{order.totalPrice}$</span>
+
+                                    

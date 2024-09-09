@@ -1,23 +1,14 @@
 extend ../../layouts/default.pug
+include ../../mixins/product-list.pug
 block main
-    .product-list
-        .container.inner-wrap
-            .inner-head
-                h1 Danh sách sản phẩm
-            .row
-                each item in products
-                    .col-3
-                        .inner-item
-                            .inner-img
-                                img(
-                                    src=item.thumbnail
-                                    alt=item.title
-                                )
-                            .inner-content
-                                .inner-title #{item.title}
-                                .inner-price-new #{item.priceNew}$
-                                .inner-price-old 
-                                    .inner-price #{item.price}
-                                        sup $
-                                    .inner-discount -#{item.discountPercentage}
-                
+    if(categorysChild)
+        +sub-menu-category()
+    else 
+        include ../../partials/sider.pug
+    div(class="content")
+        .product-list
+            .container.inner-wrap
+                .inner-head
+                    h1(class="fs-4") Danh sách sản phẩm
+                +product-grid(products)
+    script(src="/js/category.js") 

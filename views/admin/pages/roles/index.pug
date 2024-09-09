@@ -1,0 +1,66 @@
+extend ../../layouts/default.pug
+block main 
+    h1(class="mb-4") Nhóm quyền
+    .row.balance-margin
+        .col-9 
+        .col-3.text-center
+            if(role.permissions.includes("roles_create"))
+                a(
+                    href=`${prefixAdmin}/roles/create`
+                    class='btn btn-outline-primary'
+                ) + Thêm mới 
+    table(
+        class="table table-hover table-sm mt-2"
+    )
+        thead 
+            tr 
+                th STT
+                th Nhóm quyền
+                th Mô tả ngắn
+                if(role.permissions.includes("roles_view"))
+                    th Hành động
+        tbody
+            if(records.length > 0)
+                each item, index in records 
+                    tr 
+                        td #{index + 1}
+                        td #{item.title}
+                        td #{item.description}
+                
+                    
+                        if(role.permissions.includes("roles_view"))
+                            td
+                                if(role.permissions.includes("roles_view"))
+                                    a(
+                                        type="button"
+                                        class="btn btn btn-outline-secondary btn-sm inner-btn me-1"
+                                        href=`roles/details/${item.id}`
+                                    ) <i class="fa-regular fa-eye"></i>
+                                if(role.permissions.includes("roles_edit"))
+                                    a(
+                                        type="button" 
+                                        class="btn btn-outline-primary btn-sm inner-btn me-1"
+                                        href=`roles/edit/${item.id}`
+                                    ) <i class="fa-solid fa-pen-to-square"></i>
+                                if(role.permissions.includes("roles_delete"))
+                                    button(
+                                        type="button" 
+                                        class="btn btn-outline-danger btn-sm inner-btn"
+                                        data-id-delete-item=item.id
+                                    ) <i class="fa-solid fa-trash"></i>
+            else 
+                tr 
+                    td(colspan=4 class="text-center") Chưa có nhóm quyền được tạo
+            
+
+
+    //- form delete 
+    form(
+        action=""
+        id="form-delete-item"
+        data-path=`${prefixAdmin}/roles/delete`
+        method="POST"
+    )
+    //- form delete end
+
+    script(src="/admin/js/product.js") 

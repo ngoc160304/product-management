@@ -2,3 +2,6 @@ extend ../../layouts/default.pug
 
 block main
     h1 Trang admin
+    div #{role}
+    if(role.permissions.includes("products_view"))
+        div Xin chao

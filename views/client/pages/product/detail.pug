@@ -1,0 +1,75 @@
+extend ../../layouts/default.pug
+block main 
+    div(class="container")
+        div(class="product-detail")
+            .row.justify-content-center
+                .col-5
+                    div(class="inner-img")
+                        .img-preview
+                            img(
+                                src=product.thumbnail 
+                                alt=product.title
+                                width="100%"
+                            )
+                .col-6
+                    div(class="inner-info")
+                        div(class="inner-policy")
+                            ul 
+                                li 
+                                    <i class="fa-solid fa-box-open"></i>
+                                    span Chính hãng
+                                li
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    span Đổi ý 30 ngày
+                        h1(class="inner-title") #{product.title}
+                        div.inner-quantity-sold Đã bán : 2
+                        .inner-price
+                            .inner-price-new #{product.priceNew}$
+                            .inner-discount -#{product.discountPercentage}%
+                        .inner-price-old #{product.price}$
+                    div(class="inner-deliver")
+                        h5.inner-deliver-title Địa chỉ giao hàng 
+                        div.inner-deliver-location 
+                            p Giao đến TP. Thủ Dầu Một, P. Hoà Phú, Bình Dương
+                            button Đổi 
+                        div.inner-deliver-time
+                            <p><i class="fa-solid fa-truck-fast"></i>Trước thứ 3</p>
+                            div.inner-deliver-date Trước 19h, 30/07: <span>Miễn phí</span> <del>22.000₫</del>
+                    div(class="inner-payment")
+                        .inner-payment-title Số lượng
+                        form(
+                            class="form mt-1 inner-payment-quantity"
+                            action=`/cart/add/${product.id}`
+                            method="POST"
+                        )
+                            div(class="inner-payment-number" product-quantity)
+                                span -
+                                input(
+                                    type="number"
+                                    class="form-control"
+                                    name="quantity"
+                                    min="1"
+                                    max=product.stock 
+                                    value="1"
+                                ) 
+                                span +
+                            button(
+                                type="submit"
+                                class="inner-payment-add"
+                            ) Thêm vào giỏ hàng <i class="fa-solid fa-cart-shopping"></i>
+                        form(
+                            action=`/products/buy-now/${product.id}`
+                            method="POST"
+                            class="mt-2"
+                        )
+                            button(
+                                type="submit"
+                                class="text-decoration btn btn-outline-primary inner-payment-buy"
+                                buy-now
+                                href=`/cart?idp=${product.id}`
+                            ) Mua ngay
+                    
+                            
+                            
+
+            

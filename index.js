@@ -1,8 +1,8 @@
 const express = require("express");
-
 require('dotenv').config()
 
 const systemConfig = require("./config/system");
+
 
 // Use http get, put, post, patch, delete
 var methodOverride = require('method-override')
@@ -14,17 +14,30 @@ var flash = require('express-flash')
 const cookieParser = require("cookie-parser")
 const session = require("express-session");
 
+const path = require('path');
 const app = express();
+
+// cookie session
 
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
 
 
+
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(cookieParser('dfndsadksfjj'));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+    cookie: { maxAge: 10000 * 60 * 60 * 24 * 365 }
+}));
 app.use(flash());
+
+// using tiny mce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
+
+
 
 const port = process.env.PORT;
 
@@ -56,4 +69,5 @@ app.listen(port, () => {
 
 // Hiện tai ht tiếp diễn vẫn có thể tiếp diễn ở lai
 // Quá khư ht tiếp diễn có thể tiếp tục xảy ra ở trong quá khư k '
-console.log(__dirname);
+
+// kafka

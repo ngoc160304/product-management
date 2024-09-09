@@ -1,0 +1,28 @@
+extend ../../layouts/auth.pug
+block main 
+    .container(onclick)
+        .top
+        .bottom
+        .center
+            form(
+                action=`${prefixAdmin}/`
+                method="POST"
+            )
+                h2(class="header") Đăng Nhập
+                input(
+                    type="email"
+                    placeholder="email"
+                    name="email"
+
+                )
+                input(
+                    type="password"
+                    placeholder="password"
+                    name="password"
+                )
+                div.button-submit
+                    input(
+                        type="submit"
+                        value="Đăng nhập"
+                    )
+                h2 &nbsp;

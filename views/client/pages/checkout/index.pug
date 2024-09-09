@@ -1,0 +1,89 @@
+extend ../../layouts/default.pug
+block main 
+    div(class="content")
+        .container 
+            h1(class="fs-4 mb-4") Đơn hàng
+            table.table.cart-user
+                thead
+                    tr
+                        th Hình ảnh
+                        th Sản phẩm
+                        th Đơn giá
+                        th.text-center Số lượng 
+                        th.text-center Số tiền
+                tbody
+                    if(products.length)
+                        each item in products
+                            tr
+                                
+                                td.inner-img
+                                    img(src=item.info.thumbnail alt="" width="150px")
+                                td.inner-title
+                                    a(href=`/products/detail/${item.info.slug}`) #{item.info.title}
+                                td.inner-price
+                                    del #{item.info.price}$
+                                    span #{item.info.priceNew}$
+                                td.product-detail.text-center #{item.info.quantity}
+                                   
+                                td.inner-price-new.text-center #{item.info.totalPrice}$
+                             
+            div(class="order-checkout")
+                .row.justify-content-between
+                    .col
+                        div(class="inner-payment d-flex justify-content-end align-items-center")
+                            .inner-total-price.d-flex.align-items-center.justify-content-center.col-3 Tổng thanh toán(#{products.length ? products.length : 0} Sản phẩm) <span class="ms-3">#{products.totalPrice}$</span>
+          
+                        .inner-checkout.d-flex.justify-content-center.my-3
+                            .col-5
+                                form(
+                                    action=`/checkout/orders`
+                                    method="POST"
+                                    class="form-checkout"
+                                    form-order
+                                )
+                                    h3(class="text-center") Thông tin người nhận
+                                    div(class="mb-3")
+                                        label(class="form-label" for="fullname") Tên người nhận :
+                                        input(
+                                            type="text"
+                                            class="form-control"
+                                            name="fullname"
+                                            id="fullname"
+                                            required 
+                                        ) 
+                                    div(class="mb-3")
+                                        label(class="form-label" for="phone") Số điện thoại :
+                                        input(
+                                            type="text"
+                                            class="form-control"
+                                            name="phone"
+                                            id="phone"
+                                            required 
+                                        ) 
+                                    div(class="mb-3")
+                                        label(class="form-label" for="address") Địa chỉ :
+                                        input(
+                                            type="text"
+                                            class="form-control"
+                                            name="address"
+                                            id="address"
+                                            required 
+                                        ) 
+                                    div(class="d-none")
+                                        input(
+                                            name="product-list"
+                                            value=products
+                                        )
+                                    div(class="d-flex justify-content-between")
+                                        div(class="col-5")
+                                            button(
+                                                class="btn btn-danger"
+                                            ) Thanh toán khi nhận hàng 
+                                        div(class="col-5 text-end")
+                                            button(
+                                                class="btn btn-danger d-block"
+                                                href=`/checkout/online-payment`
+                                            ) Thanh toán online
+
+    script(src="/js/cart.js") 
+                        

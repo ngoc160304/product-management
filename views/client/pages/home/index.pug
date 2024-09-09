@@ -1,3 +1,17 @@
 extend ../../layouts/default.pug
+include ../../mixins/product-list.pug
+include ../../mixins/box-head.pug
 block main
-    h1 Trang chủ
+    if(categorysChild)
+        +sub-menu-category()
+    else 
+        include ../../partials/sider.pug
+    div(class="content")
+        .box-content 
+            .product-list 
+                +box-head-title("Sản phẩm nổi bật")
+                +product-grid(productsFeature)
+        .box-content 
+            .product-list 
+                +box-head-title("Sản phẩm mới")
+                +product-grid(productsNew)

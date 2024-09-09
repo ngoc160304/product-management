@@ -1,0 +1,20 @@
+mixin product-grid(products)
+    .row
+        each item in products
+            .col-3
+                a(
+                    href=`/products/detail/${item.slug}`
+                    class="inner-item"
+                )
+                    .inner-img
+                        img(
+                            src=item.thumbnail
+                            alt=item.title
+                        )
+                    .inner-content
+                        .inner-title #{item.title}
+                        .inner-price-new #{item.priceNew}$
+                        .inner-price-old 
+                            .inner-price #{item.price}
+                                sup $
+                            .inner-discount -#{item.discountPercentage}

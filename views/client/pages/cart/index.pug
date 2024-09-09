@@ -1,0 +1,117 @@
+extend ../../layouts/default.pug
+block main 
+    div(class="content")
+        .container 
+            h1(class="fs-4 mb-4") Giỏ hàng
+            table.table.cart-user
+                thead
+                    tr
+                        th 
+                            input(
+                                class="form-check-input" 
+                                type="checkbox"
+                                name="check-all"
+                            )
+                        th Hình ảnh
+                        th Sản phẩm
+                        th Đơn giá
+                        th Số lượng 
+                        th Số tiền
+                        th Thao tác
+                tbody
+                    if(cart.products.length)
+                        each item in cart.products
+                            tr
+                                td 
+                                    input(
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        product-id=item.product_id 
+                          
+                                        quantity=item.quantity 
+                                        amount=item.product.priceNew
+                                        name="id"
+                                        checked = productId === item.product_id ? true : false
+                                    )
+                                td.inner-img
+                                    img(src=item.product.thumbnail alt="" width="150px")
+                                td.inner-title
+                                    a(href=`/products/detail/${item.product.slug}`) #{item.product.title}
+                                td.inner-price
+                                    del #{item.product.price}$
+                                    span #{item.product.priceNew}$
+                                td.product-detail
+                                    div(class="inner-payment-number" product-update-quantity)
+                                        span -
+                                        input(
+                                            type="number"
+                                            class="form-control"
+                                            name="quantity"
+                                            min="1"
+                                            max=item.product.stock 
+                                            value=item.quantity
+                                            product-id=item.product_id
+                                        ) 
+                                        span +
+                                td.inner-price-new #{item.totalPrice}$
+                                td 
+                                    button(
+                                        type="button"
+                                        class="btn btn-outline-danger"
+                                        product-id=item.product_id
+                                        btn-delete-cart
+                                    ) Xóa
+            div(class="cart-checkout")
+                .row.justify-content-between
+                    .col
+                        div(class="inner-multi d-flex")
+                            .inner-product-quantity
+                                input(
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    id="product-quantity"
+                                    name="check-all"
+                                )
+                                label(for="product-quantity" class="ms-3") Chọn tất cả(#{cart.products.length ? cart.products.length : 0})
+                            div(class="inner-delete-all") 
+                                button(delete-all) Xóa sản phẩm đã chọn
+                    .col
+                        div(class="inner-payment d-flex justify-content-between align-items-center")
+                            .inner-total-price.text-center.d-flex.align-items-center(result-cart) 
+                            div(
+                                class="inner-checkout"
+                            )
+                                button(btn-purchase-multi) Mua hàng
+                               
+            form(
+                action="/cart/delete"
+                method="POST"
+                delete-cart
+            )
+            form(
+                action="/cart/update"
+                method="POST"
+                update-quantity
+            )
+            form(
+                action="/cart/delete-all?_method=DELETE"
+                method="POST"
+                class="d-none"
+                delete-all-cart
+            )
+                input(
+                    type="text"
+                    name="ids"
+                )
+            form(
+                action="/cart/purchase-multi"
+                method="POST"
+                form-purchase-multi
+            )
+            
+                input(
+                    name="products"
+                    class="d-none"
+                )
+    script(src="/js/cart.js") 
+                        

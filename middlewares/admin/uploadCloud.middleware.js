@@ -8,7 +8,6 @@ cloudinary.config({
     api_secret: process.env.CLOUD_SECRET // Click 'View Credentials' below to copy your API secret
 });
 
-
 module.exports.upload = (req, res, next) => {
     if(req.file) {
         let streamUpload = (req) => {

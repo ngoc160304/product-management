@@ -3,6 +3,7 @@ include ../../mixins/filter-search.pug
 include ../../mixins/search-form.pug
 include ../../mixins/pagination.pug
 include ../../mixins/change-multi.pug
+include ../../mixins/sort.pug
 
 block main
     h1.inner-title-head Danh sách sản phẩm
@@ -28,11 +29,16 @@ block main
     .row.d-flex.justify-content-between.mt-3.me-0
         .col-auto
             +change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
-        .col-3
-            a(
-                class="btn btn-outline-primary"
-                href="/admin/products/create"
-            ) + Thêm mới sản phẩm
+        .col-4
+            .row.align-items-start
+                .col-7.d-flex.justify-content-end
+                    if(role.permissions.includes("products_create"))
+                        a(
+                            class="btn btn-outline-primary"
+                            href="/admin/products/create"
+                        ) + Thêm mới sản phẩm
+                .col-5
+                    +sort()
         //- đường link có dấy / đầu tiên sẽ lấy từ dấu / đấy không nối vào link cũ
         //- Ví dụ trang hiện lại là admin/products còn a có href = "admin/products/" thì sẽ nối thành admin/admin/products còn k thì k nối
     //- Table product list
@@ -51,6 +57,7 @@ block main
                 th Mức giá
                 th Vị trí
                 th Trạng thái
+                th Người tạo
                 th Hành động
         tbody
             each item, index in products
@@ -84,7 +91,7 @@ block main
                         )
                     td
                         if(item.status == "active")
-                            butotn(
+                            button(
                                 type="button"
                                 class="badge text-bg-primary"
                                 button-change-status
@@ -92,7 +99,7 @@ block main
                                 status=item.status
                             ) Đang hoạt động
                         else 
-                            butotn(
+                            button(
                                 type="button"
                                 class="badge text-bg-warning"
                                 button-change-status
@@ -100,21 +107,27 @@ block main
                                 status=item.status
                             ) Dừng hoạt động
                     td
-                        a(
-                            type="button"
-                            class="btn btn btn-outline-secondary btn-sm inner-btn me-1"
-                            href=`products/details/${item.slug}`
-                        ) <i class="fa-regular fa-eye"></i>
-                        a(
-                            type="button" 
-                            class="btn btn-outline-primary btn-sm inner-btn me-1"
-                            href=`products/edit/${item.id}`
-                        ) <i class="fa-solid fa-pen-to-square"></i>
-                        button(
-                            type="button" 
-                            class="btn btn-outline-danger btn-sm inner-btn"
-                            data-id-delete-item=item.id
-                        ) <i class="fa-solid fa-trash"></i>
+                        p #{item.fullnameCreate}
+                       
+                    td
+                        if(role.permissions.includes("products_view"))
+                            a(
+                                type="button"
+                                class="btn btn btn-outline-secondary btn-sm inner-btn me-1"
+                                href=`products/details/${item.slug}`
+                            ) <i class="fa-regular fa-eye"></i>
+                        if(role.permissions.includes("products_edit"))
+                            a(
+                                type="button" 
+                                class="btn btn-outline-primary btn-sm inner-btn me-1"
+                                href=`products/edit/${item.id}`
+                            ) <i class="fa-solid fa-pen-to-square"></i>
+                        if(role.permissions.includes("products_delete"))
+                            button(
+                                type="button" 
+                                class="btn btn-outline-danger btn-sm inner-btn"
+                                data-id-delete-item=item.id
+                            ) <i class="fa-solid fa-trash"></i>
     //- Table product list end
 
     //- form submit status
@@ -127,12 +140,13 @@ block main
     //- form submit status end
     
     //- form delete 
-    form(
-        action=""
-        id="form-delete-item"
-        data-path=`${prefixAdmin}/products/delete`
-        method="POST"
-    )
+    if(role.permissions.includes("products_delete"))
+        form(
+            action=""
+            id="form-delete-item"
+            data-path=`${prefixAdmin}/products/delete`
+            method="POST"
+        )
     //- form delete end
 
     //- Paginaton

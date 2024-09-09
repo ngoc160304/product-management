@@ -1,49 +1,50 @@
 extend ../../layouts/default.pug
 block main 
-    h1(class="text-head-detail") Chi tiết sản phẩm
-    div(class="session-product-detail")
-        div(class="container")
-            div(class="row")
-                div(class="col-6")
-                    div(class="inner-img")
-                        img(
-                            src=product.thumbnail
-                            alt=product.title
-                            srcset=""
-                        )
-                div(class="col-6")
-                    h2(class="inner-text-head") Thông tin sản phẩm #{product.title}
-                    div(class="inner-table")
-                        table(class="table table-lg table-striped")
-                            tbody 
-                                tr 
-                                    td
-                                        p Giá cả :
-                                    if(product.price)
-                                        td #{product.price}$
-                                tr
-                                    td 
-                                        p % Giảm giá :
-                                    if(product.discountPercentage)
-                                        td #{product.discountPercentage}%
-                                tr
-                                    td 
-                                        p Số lượng :
-                                    if(product.stock)
-                                        td #{product.stock}
-                                tr
-                                    td 
-                                        p Trạng thái :
-                                    if(product.status)
-                                        td #{product.status}
-                                tr
-                                    td 
-                                        p Vị trí sản phẩm :
-                                    if(product.position)
-                                        td #{product.position}
-            div(class="text-detail")
-                h4 Mô tả sản phẩm :
-                p #{product.description}
+    if(role.permissions.includes("products_view"))
+        h1(class="text-head-detail") Chi tiết sản phẩm
+        div(class="session-product-detail")
+            div(class="container")
+                div(class="row")
+                    div(class="col-6")
+                        div(class="inner-img")
+                            img(
+                                src=product.thumbnail
+                                alt=product.title
+                                srcset=""
+                            )
+                    div(class="col-6")
+                        h2(class="inner-text-head") #{product.title}
+                        div(class="inner-table")
+                            table(class="table table-lg table-striped")
+                                tbody 
+                                    tr 
+                                        td
+                                            p Giá cả :
+                                        if(product.price)
+                                            td #{product.price}$
+                                    tr
+                                        td 
+                                            p % Giảm giá :
+                                        if(product.discountPercentage)
+                                            td #{product.discountPercentage}%
+                                    tr
+                                        td 
+                                            p Số lượng :
+                                        if(product.stock)
+                                            td #{product.stock}
+                                    tr
+                                        td 
+                                            p Trạng thái :
+                                        if(product.status)
+                                            td #{product.status}
+                                    tr
+                                        td 
+                                            p Vị trí sản phẩm :
+                                        if(product.position)
+                                            td #{product.position}
+                div(class="text-detail")
+                    h4 Mô tả sản phẩm :
+                    p !{product.description}
 
 
 

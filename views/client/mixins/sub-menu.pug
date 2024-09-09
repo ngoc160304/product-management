@@ -1,0 +1,24 @@
+mixin sub-menu-category()
+    if(categorysChild.length)
+        .sidebar.sider-category
+            .inner-list-menu 
+                .title Danh mục
+                ul 
+                    each item in categorysChild
+                        li
+                            a(href=`/products/${item.slug}`)
+                                span #{item.title}
+                            if(item.children.length)
+                                button(
+                                    type="button"
+                                    class="inner-btn-drop"
+                                    category=item.slug
+                                ) <i class="fa-solid fa-chevron-right"></i>
+                        if(item.children.length)
+                            ul(class="category-child" id=item.slug)
+                                each itemChild in item.children 
+                                    li 
+                                        a(href=`/products/${itemChild.slug}`)
+                                            span #{itemChild.title}
+                                    
+                                    

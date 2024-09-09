@@ -1,0 +1,50 @@
+extend ../../layouts/default.pug
+block main 
+    if(role.permissions.includes("products-category_view"))
+        h1(class="text-head-detail") Chi tiết danh mục
+        div(class="session-product-detail")
+            div(class="container")
+                div(class="row")
+                    if(record.thumbnail)
+                        div(class="col-6")
+                            div(class="inner-img")
+                                img(
+                                    src=record.thumbnail
+                                    alt=record.title
+                                    srcset=""
+                                )
+                    div(class="col-6")
+                        h2(class="inner-text-head") #{record.title}
+                        div(class="inner-table")
+                            table(class="table table-lg table-striped")
+                                tbody 
+                                    tr
+                                        td 
+                                            p Trạng thái :
+                                        if(record.status)
+                                            td #{record.status}
+                                    tr
+                                        td 
+                                            p Vị trí sản phẩm :
+                                        if(record.position)
+                                            td #{record.position}
+                if(record.description)
+                    div(class="text-detail")
+                        h4 Mô tả sản phẩm :
+                        p !{record.description}
+        if(role.permissions.includes("products-category_edit"))
+            a(
+                href=`${prefixAdmin}/products-category/edit/${record.id}`
+                class="btn btn-outline-primary"
+            ) Chỉnh sửa
+
+
+
+            
+                                    
+                                
+
+                                
+
+                            
+                    

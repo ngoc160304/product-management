@@ -1,34 +1,75 @@
 extend ../../layouts/default.pug
+include ../../mixins/select-tree.pug
+
 block main
-    h1(class="fs-4") Chỉnh sửa sản phẩm  
-    form(
-        id="form-edit-product"
-        action=`/admin/products/edit/${product.id}?_method=PATCH`
-        method="POST"
-        enctype="multipart/form-data"
-    )
-        label(for="title" class="form-label mt-1") Tiêu đề :
-        div(class="input-group")
-            input(
-                class="form-control"
-                type="text"
-                required 
-                id="title"
-                name="title"
-                value=product.title
-            )
-        label(for="desc" class="form-label mt-1") Mô tả chi tiết :
-        div(class="input-group")
-            textarea(
-                class="form-control"
-                id="desc"
-                name="description"
-                rows="5"
-            ) #{product.description}
-        .row 
-            .col-3.ms-0
-                label(for="price" class="form-label mt-1") Mức giá :
-                div(class="input-group")
+    if(role.permissions.includes("products_edit"))
+        if(messages.error)
+            .message.error
+                div(
+                    class="alert alert-danger" 
+                    role="alert"
+                    show-alert
+                    time="3000"
+                ) #{messages.error}
+        h1(class="fs-4") Chỉnh sửa sản phẩm  
+        form(
+            id="form-edit-product"
+            action=`/admin/products/edit/${product.id}?_method=PATCH`
+            method="POST"
+            enctype="multipart/form-data"
+        )
+            .mt-1
+                label(for="title" class="form-label") Tiêu đề :
+                input(
+                    class="form-control"
+                    type="text"
+                    required 
+                    id="title"
+                    name="title"
+                    value=product.title
+                )
+            .mt-2
+                label(for="category" class="form-label mt-1") Danh mục sản phẩm :
+                select(
+                    class="form-select" 
+                    aria-label="Default select example"
+                    name="category_id"
+                )
+                    option(selected value="") Chọn danh mục
+                    +select-tree-edit-product(records, 1, product)
+            .mt-2
+                label(for="desc" class="form-label mt-1") Mô tả chi tiết :
+                textarea(
+                    class="form-control textarea-tiny-mce"
+                    id="desc"
+                    name="description"
+                    rows="5"
+                ) #{product.description}
+            .mt-2 
+                label(class="form-label d-block mb-1 mt-1") Sản phẩm nổi bật :
+                .form-check.form-check-inline
+                    input(
+                        class="form-check-input"
+                        type="radio"
+                        name="featured"
+                        id="active"
+                        value="1"
+                        checked=product.featured == "1" ? true : false
+                    )
+                    label(class="form-check-label" for="active") Nổi bật
+                .form-check.form-check-inline
+                    input(
+                        class="form-check-input"
+                        type="radio"
+                        name="featured"
+                        id="inactive"
+                        value="0"
+                        checked=product.featured == "0" ? true : false
+                    )
+                    label(class="form-check-label" for="inactive") Không
+            .row.balance-margin.mt-2
+                .col-3
+                    label(for="price" class="form-label") Mức giá :
                     input(
                         class="form-control"
                         type="number"
@@ -37,9 +78,8 @@ block main
                         value=product.price
                         step="any"
                     )
-            .col-3
-                label(for="discountPercentage" class="form-label mt-1") % Giảm giá :
-                div(class="input-group")
+                .col-3
+                    label(for="discountPercentage" class="form-label") % Giảm giá :
                     input(
                         class="form-control"
                         type="number"
@@ -48,9 +88,8 @@ block main
                         value=product.discountPercentage
                         step="any"
                     )
-            .col-3 
-                label(for="stock" class="form-label mt-1") Số lượng :
-                div(class="input-group")
+                .col-3 
+                    label(for="stock" class="form-label") Số lượng :
                     input(
                         class="form-control"
                         type="number"
@@ -58,9 +97,8 @@ block main
                         min=1
                         value=product.stock
                     )
-            .col-3.me-0
-                label(for="position" class="form-label mt-1") Vị trí sản phẩm : 
-                div(class="input-group")
+                .col-3
+                    label(for="position" class="form-label") Vị trí sản phẩm : 
                     input(
                         class="form-control"
                         type="number"
@@ -69,52 +107,53 @@ block main
                         placeholder="Tự động tăng"
                         value=product.position
                     )
-        label(for="thumbnail" class="form-label mt-1") Hỉnh ảnh :
-        div(class="input-group")
-            input(
-                class="form-control"
-                type="file"
-                id="thumbnail"
-                name="thumbnail"
-                accept="image/*"
-            )
-        div(
-            class="preview-img"
-        )
-            img(
-                upload-image-preview
-                src=product.thumbnail
-            )
-            button(
-                type="button"
-                class="btn btn-outline-danger"
-                btn-delete-image-preview
-            ) Xóa    
-        label(class="form-label d-block mb-1 mt-1") Trạng thái :
-        div(class="form-check d-inline-block me-2")
-            input(
-                class="form-check-input"
-                type="radio"
-                name="status"
-                id="active"
-                value="active"
-                checked=product.status == "active" ? true : false
-            )
-            label(class="form-check-label" for="active") Hoạt động
-        div(class="form-check d-inline-block")
-            input(
-                class="form-check-input"
-                type="radio"
-                name="status"
-                id="inactive"
-                value="inactive"
-                checked=product.status == "inactive" ? true : false
-            )
-            label(class="form-check-label" for="inactive") Ngừng hoạt động 
-        div(class="input-group mt-2")
-            input(
-                type="submit"
-                value="Tạo mới"
-                class="btn btn-primary"
-            )
-        
+            .mt-2
+                label(for="thumbnail" class="form-label mt-1") Hỉnh ảnh :
+                input(
+                    class="form-control"
+                    type="file"
+                    id="thumbnail"
+                    name="thumbnail"
+                    accept="image/*"
+                )
+                div(
+                    class="preview-img"
+                )
+                    img(
+                        upload-image-preview
+                        src=product.thumbnail
+                    )
+                    button(
+                        type="button"
+                        class="btn btn-outline-danger"
+                        btn-delete-image-preview
+                    ) Xóa   
+            .mt-2 
+                label(class="form-label d-block mb-1 mt-1") Trạng thái :
+                .form-check.form-check-inline
+                    input(
+                        class="form-check-input"
+                        type="radio"
+                        name="status"
+                        id="active"
+                        value="active"
+                        checked=product.status == "active" ? true : false
+                    )
+                    label(class="form-check-label" for="active") Hoạt động
+                .form-check.form-check-inline
+                    input(
+                        class="form-check-input"
+                        type="radio"
+                        name="status"
+                        id="inactive"
+                        value="inactive"
+                        checked=product.status == "inactive" ? true : false
+                    )
+                    label(class="form-check-label" for="inactive") Ngừng hoạt động 
+            div(class="input-group mt-2")
+                input(
+                    type="submit"
+                    value="Cập nhật"
+                    class="btn btn-primary"
+                )
+            

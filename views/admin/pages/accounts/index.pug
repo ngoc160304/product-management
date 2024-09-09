@@ -1,0 +1,98 @@
+extend ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-success(messages.success)
+    h1(class="fs-4") Danh sách tài khoản
+    .row.balance-margin
+        .col-9 
+        .col-3.text-center
+            a(
+                href=`${prefixAdmin}/accounts/create`
+                class='btn btn-outline-primary'
+            ) + Thêm mới 
+    table(
+        class="table table-list-product mt-3"
+    )
+        thead
+            tr
+                th STT
+                th Avatar
+                th Họ tên
+                th Email
+                th Trạng thái
+                th Hành động
+        tbody
+            if(records.length)
+                each item, index in records
+                    tr
+                        td #{index + 1}
+                        td
+                            if(item.avatar)
+                                img(
+                                    src=item.avatar
+                                    class="inner-img"
+                                )
+                        td #{item.fullname} 
+                        td #{item.email}
+                        td
+                            if(item.status == "active")
+                                button(
+                                    type="button"
+                                    class="badge text-bg-primary"
+                                    button-change-status
+                                    id-item=item.id 
+                                    status=item.status
+                                ) Đang hoạt động
+                            else 
+                                button(
+                                    type="button"
+                                    class="badge text-bg-warning"
+                                    button-change-status
+                                    id-item=item.id 
+                                    status=item.status
+                                ) Dừng hoạt động
+                        td
+                            if(role.permissions.includes("accounts_view"))
+                                a(
+                                    type="button"
+                                    class="btn btn btn-outline-secondary btn-sm inner-btn me-1"
+                                    href=`accounts/details/${item.id}`
+                                ) <i class="fa-regular fa-eye"></i>
+                            if(role.permissions.includes("accounts_edit"))
+                                a(
+                                    type="button" 
+                                    class="btn btn-outline-primary btn-sm inner-btn me-1"
+                                    href=`accounts/edit/${item.id}`
+                                ) <i class="fa-solid fa-pen-to-square"></i>
+                            if(role.permissions.includes("accounts_delete"))
+                                button(
+                                    type="button" 
+                                    class="btn btn-outline-danger btn-sm inner-btn"
+                                    data-id-delete-item=item.id
+                                ) <i class="fa-solid fa-trash"></i>
+            else 
+                tr 
+                    td(colspan=6 class="text-center") Hiện chưa có tài khoản
+                        
+        //-  Change status
+        form(
+            action=""
+            id="change-status"
+            data-path=`${prefixAdmin}/accounts/change-status`
+            method="POST"
+        )
+        //-  Change status end
+
+        //- form delete 
+        if(role.permissions.includes("accounts_delete"))
+            form(
+                action=""
+                id="form-delete-item"
+                data-path=`${prefixAdmin}/accounts/delete`
+                method="POST"
+            )
+
+        //- form delete end
+
+        script(src="/admin/js/product.js")

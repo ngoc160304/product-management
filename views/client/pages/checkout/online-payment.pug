@@ -1,0 +1,60 @@
+extend ../../layouts/default.pug
+block main 
+    .container
+        .row.justify-content-center
+            .col-6
+                form(
+                    action="/checkout/online-payment"
+                    method="POST"
+                    class="form-checkout"
+                    class="form-online-payment mt-3"
+                )
+                    div(class="inne-info-bank")
+                        h1(class="fs-3 mb-3") Thông tin đơn hàng
+                        div(class="mb-3")
+                            label(class="form-label" for="orderInfo") Nội dung thanh toán :
+                            textarea(
+                                class="form-control"
+                                name="orderInfo"
+                                id="orderInfo"
+                                rows="3"
+                            )
+                        div(class="mb-3") 
+                            label(class="form-label" for="language") Ngôn ngữ : 
+                            select(class="form-select" name="language" id="language") 
+                                option(selected value="vi") Tiếng việt
+                                option(value="en") Tiếng anh
+                    div(class="inner-info-consignee mb-3")
+                        h3(class="fs-4") Thông tin người nhận
+                        div(class="mb-3")
+                            label(class="form-label" for="fullname") Tên người nhận :
+                            input(
+                                type="text"
+                                class="form-control"
+                                name="fullname"
+                                id="fullname"
+                                required 
+                            ) 
+                        div(class="mb-3")
+                            label(class="form-label" for="phone") Số điện thoại :
+                            input(
+                                type="text"
+                                class="form-control"
+                                name="phone"
+                                id="phone"
+                                required 
+                            ) 
+                        div(class="mb-3")
+                            label(class="form-label" for="address") Địa chỉ :
+                            input(
+                                type="text"
+                                class="form-control"
+                                name="address"
+                                id="address"
+                                required 
+                            ) 
+                        div(class="mb-3 d-grid gap-2")
+                            button(
+                                type="submit"
+                                class="d-block btn btn-outline-danger"
+                            ) Tiếp theo

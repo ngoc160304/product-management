@@ -1,0 +1,123 @@
+extend ../../layouts/default.pug
+include ../../mixins/select-tree.pug
+
+block main
+    if(role.permissions.includes("products-category_edit"))
+        if(messages.error)
+            .message.error
+                div(
+                    class="alert alert-danger" 
+                    role="alert"
+                    show-alert
+                    time="3000"
+                ) #{messages.error}
+        h1(class="fs-4") Chỉnh sửa danh mục
+        form(
+            id="form-create-product"
+            action=`/admin/products-category/edit/${data.id}?_method=PATCH`
+            method="POST"
+            enctype="multipart/form-data"
+        )
+            .mt-2
+                label(for="title" class="form-label") Tiêu đề :
+                input(
+                    class="form-control"
+                    type="text"
+                    id="title"
+                    name="title"
+                    value=data.title
+                    required 
+                )
+            .mt-2
+                label(for="parent_id" class="form-label") Danh mục cha :
+                select(
+                    class="form-select" 
+                    aria-label="Disabled select example" 
+                    id="parent_id"
+                    name="parent_id"
+                )
+                    option(value="") --Chọn danh mục cha--
+                    +select-tree-edit-category(records, 1, data)
+            .mt-2
+                label(for="desc" class="form-label") Mô tả chi tiết :
+                textarea(
+                    class="form-control textarea-tiny-mce"
+                    id="desc"
+                    name="description"
+                    rows="7"
+                ) #{data.description}
+            .mt-2
+                label(for="thumbnail" class="form-label") Hỉnh ảnh :
+                input(
+                    class="form-control d-block"
+                    type="file"
+                    id="thumbnail"
+                    name="thumbnail"
+                    accept="image/*"
+                    upload-image-input
+                    value=data.thumbnail
+                )
+                div(
+                    class="preview-img"
+                )
+                    - if(data.thumbnail) 
+                        img(
+                            upload-image-preview
+                            src=data.thumbnail
+                        )
+                        button(
+                            type="button"
+                            class="btn btn-outline-danger"
+                            btn-delete-image-preview
+                        ) Xóa
+                    - else
+                        img(
+                            upload-image-preview
+                            src=""
+                        )
+                        button(
+                            type="button"
+                            class="btn btn-outline-danger"
+                            btn-delete-image-preview
+                        ) Xóa
+            .mt-2
+                label(class="form-label d-block mb-1 mt-1") Trạng thái :
+                .form-check.form-check-inline
+                    input(
+                        class="form-check-input"
+                        type="radio"
+                        name="status"
+                        id="active"
+                        value="active"
+                        checked=data.status == "active" ? true : false 
+                    )
+                    label(class="form-check-label" for="active") Hoạt động
+                .form-check.form-check-inline
+                    input(
+                        class="form-check-input"
+                        type="radio"
+                        name="status"
+                        id="inactive"
+                        value="inactive"
+                        checked=data.status == "inactive" ? true : false 
+                    )
+                    label(class="form-check-label" for="inactive") Ngừng hoạt động 
+            .row.mt-2.balance-margin
+                .col-3
+                    label(for="position" class="form-label mt-1") Vị trí sản phẩm : 
+                    div(class="input-group")
+                        input(
+                            class="form-control"
+                            type="number"
+                            id="position"
+                            name="position"
+                            placeholder="Tự động tăng"
+                            value=data.position
+                        )
+            div(class="input-group mt-2")
+                input(
+                    type="submit"
+                    value="Chỉnh sửa"
+                    class="btn btn-primary"
+                )
+            

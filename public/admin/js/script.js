@@ -8,13 +8,13 @@ if(listStatus.length) {
             const status = item.getAttribute("button-status")
             if(status) {
                 url.searchParams.set("status", status);
-                if(inputSearch.value == '') {
+                if(inputSearch && inputSearch.value == '') {
                     url.searchParams.delete("keyword")
                 }
             }
             else {
                 url.searchParams.delete("status");
-                if(inputSearch.value == '') {
+                if(inputSearch && inputSearch.value == '') {
                     url.searchParams.delete("keyword")
                 }
             }
@@ -32,8 +32,6 @@ if(listStatus.length) {
 const formSearch = document.querySelector("#form-search");
 if(formSearch) {
     const url = new URL(location.href);
-    const inputSearch = formSearch.querySelector("[type=text]");
-    console.log(inputSearch.value);
     formSearch.addEventListener("submit", (e) => {
         e.preventDefault();
         const keyword = e.target[0].value;
@@ -142,12 +140,13 @@ if(showAlert) {
 // Preview img 
 const thumbnailInput = document.querySelector("[upload-image-input]");
 if(thumbnailInput) {
+    
     thumbnailInput.addEventListener("change", (e) => {
         const [ file ] = thumbnailInput.files;
-        if(file) {
+        if(file != null) {
             const imgUpload = document.querySelector("[upload-image-preview]");
             imgUpload.src = URL.createObjectURL(file);
-        } 
+        }
     })
 }
 // Preview img end
@@ -155,7 +154,6 @@ if(thumbnailInput) {
 // Delete preview img
 const buttonDeleteImg = document.querySelector("[btn-delete-image-preview]");
 if(buttonDeleteImg) {
-    console.log(buttonDeleteImg)
     buttonDeleteImg.addEventListener("click", () => {
         const imgUpload = document.querySelector("[upload-image-preview]");
         const inputImg = document.querySelector("[upload-image-input]");
@@ -164,3 +162,52 @@ if(buttonDeleteImg) {
     })
 }
 // Delete preview img end
+
+// Sort select
+const sortSelect = document.querySelector("#select-sort");
+if(sortSelect) {
+    const url = new URL(location.href);
+    sortSelect.addEventListener("change", (e) => {
+        const [sortKey, sortValue] = e.target.value.split("-");
+        console.log(sortKey);
+        console.log(sortValue);
+        if(sortKey === "position" && sortValue === "desc") {
+            url.searchParams.delete("sort_key");
+            url.searchParams.delete("sort_value");
+        } else {
+            url.searchParams.set("sort_key", sortKey);
+            url.searchParams.set("sort_value", sortValue);
+        }
+        location.href = url.href;
+    })
+    if(url.searchParams.get("sort_key")) {
+        const sortValue = url.searchParams.get('sort_key') + "-" + url.searchParams.get('sort_value');
+        const sortSelected = sortSelect.querySelector(`option[value=${sortValue}]`);
+        sortSelected.selected = true
+    }
+    // const sortSelected = sortSelect.querySelector("option[value='']")
+}
+// Sort select end
+
+// Header img
+const headerAvatar = document.querySelector("[header-avatar]");
+if(headerAvatar) {
+    const img = headerAvatar.querySelector("img");
+    const menu = headerAvatar.querySelector("ul");
+    console.log(img)
+    console.log(menu)
+    document.addEventListener("click", (e) => {
+        if(headerAvatar.contains(e.target)) {
+            menu.classList.toggle("d-block")
+            const menuClass = menu.getAttribute("class")
+            if(menuClass == "d-none" || menuClass == "d-none d-block") {
+                menu.setAttribute("class", "d-block");
+            } 
+        } else {
+            menu.setAttribute("class", "d-none");
+        }
+    })
+   
+    
+}
+// Header img end

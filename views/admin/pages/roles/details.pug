@@ -1,0 +1,15 @@
+extend ../../layouts/default.pug
+
+
+block main 
+    if(role.permissions.includes("roles_view"))
+        h1(class="mb-4") Chi tiết danh mục
+        .section-roles-details 
+            p <b>Tiêu đề :</b> #{data.title}
+            p <b>Mô tả ngắn :</b> #{data.description}
+            if(role.permissions.includes("roles_edit"))
+                a(
+                    href=`${prefixAdmin}/roles/edit/${data.id}`
+                    class="btn btn-primary"
+                ) Chỉnh sửa
+        

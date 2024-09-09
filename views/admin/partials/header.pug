@@ -6,3 +6,16 @@ header.header
                     src="/admin/images/logo.png"
                     alt=""
                 )
+        .inner-avatar 
+            div(class="inner-img" header-avatar)
+                img(
+                    src=user.avatar 
+                    alt="avatar"
+                    
+                )
+                ul 
+                    li 
+                        a(href="/admin/my-account/") Tài khoản của tôi
+                    li
+                        a(href="/admin/logout") Đăng xuất
+                

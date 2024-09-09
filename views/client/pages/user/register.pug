@@ -1,0 +1,65 @@
+extend ../../layouts/defaultUser.pug
+include ../../mixins/alert.pug
+block main 
+    +alert-error(messages.error)
+    .user-register
+        .row.justify-content-center
+            .col-4
+                .form-register
+                    h1(class="fs-4" class="inner-title text-center") Đăng ký tài khoản
+                    form(
+                        action="/user/register"
+                        method="POST"
+                    )
+                        div(class="mb-3")
+                            label(class="form-label" for="fullname") Tên đăng nhập :
+                            input(
+                                type="text"
+                                class="form-control"
+                                name="fullname"
+                                id="fullname"
+                                required
+                            )
+                        div(class="mb-3")
+                            label(class="form-label" for="email") Địa chỉ email :
+                            input(
+                                type="email"
+                                class="form-control"
+                                name="email"
+                                id="email"
+                                required
+                            )
+                        div(class="mb-3")
+                            label(class="form-label" for="phoneNumber") Số điện thoại :
+                            input(
+                                type="number"
+                                class="form-control"
+                                name="phone"
+                                id="phoneNumber"
+                                required
+                            )
+                        div(class="mb-3")
+                            label(class="form-label" for="password") Mật khẩu :
+                            input(
+                                type="password"
+                                class="form-control"
+                                name="password"
+                                id="password"
+                                required 
+                            )
+                        div(class="mb-3")
+                            label(class="form-label" for="pass-confirm") Xác nhận lại mật khẩu :
+                            input(
+                                type="password"
+                                class="form-control"
+                                name="pass_confirm"
+                                id="pass-confirm"
+                                required 
+                            )
+                        div(class="mb-3 d-grid gap-2")
+                            button(
+                                type="submit"
+                                class="d-block btn btn-outline-primary"
+                            ) Đăng ký
+
+                

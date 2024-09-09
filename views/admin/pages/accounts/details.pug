@@ -1,0 +1,19 @@
+extend ../../layouts/default.pug
+block main
+    if(role.permissions.includes("accounts_view"))
+        h1(class="fs-4") Chi tiết tài khoản
+        .section-roles-details 
+            p <b>Họ và tên :</b> #{data.fullname}
+            p <b>Email :</b> #{data.email}
+            p <b>Số điện thoại </b> #{data.phone}
+            p <b>Trạng thái : </b> #{data.status === "active" ? "Hoạt động" : "Bị khóa" }
+            if(data.avatar)
+                p <b>Hình đại diện : </b>
+                div
+                    img(src=data.avatar style="width: 200px; height: auto")
+            if(role.permissions.includes("accounts_edit"))
+                a(
+                    href=`${prefixAdmin}/roles/edit/${data.id}`
+                    class="btn btn-primary"
+                    class="mt-3"
+                ) Chỉnh sửa

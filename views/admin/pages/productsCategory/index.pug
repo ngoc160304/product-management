@@ -1,0 +1,65 @@
+extend ../../layouts/default.pug
+include ../../mixins/table-tree.pug
+include ../../mixins/filter-search.pug
+include ../../mixins/search-form.pug
+include ../../mixins/pagination.pug
+include ../../mixins/change-multi.pug
+
+block main 
+    h1.inner-title-head Danh mục sản phẩm
+    if(messages.success)
+        .message.success
+            div(
+                class="alert alert-primary" 
+                role="alert"
+                show-alert
+                time="3000"
+            ) #{messages.success}
+    //- filter and search
+    .filter-status
+        .card
+            h6.card-header Bộ lọc và tìm kiếm
+            .card-body
+                .row 
+                    .col-6 
+                        +filter-search(filterSearch)
+                    .col-6
+                        +search-form(keyword)
+    .row.d-flex.justify-content-between.mt-3.balance-margin
+        .col-auto
+            +change-multi(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
+        .col-3
+            if(role.permissions.includes("products-category_create"))
+                a(
+                    type="button" 
+                    class="btn btn-outline-primary"
+                    href=`${prefixAdmin}/products-category/create`
+                ) + Thêm mới
+    table(class="table table-list-product mt-3")
+        thead
+            tr
+                th 
+                    input(
+                        type="checkbox"
+                        class="form-check-input"
+                        name="checkall"
+                    )
+                th STT
+                th Hình ảnh
+                th Tiêu đề
+                th Vị trí
+                th Trạng thái
+                th Hành động
+        tbody
+            +table-tree(records)
+
+
+    //- form submit status
+    form(
+        action=""
+        id="change-status"
+        data-path=`${prefixAdmin}/products-category/change-status`
+        method="POST"
+    )
+    //- form submit status end
+    script(src="/admin/js/product.js") 

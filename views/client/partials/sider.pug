@@ -1,0 +1,17 @@
+if(categorys.length)
+    .sidebar 
+        .inner-list-menu 
+            .title Danh mục
+            ul 
+                each item in categorys
+                    li 
+                        a(href=`/products/${item.slug}`)
+                            
+                            img(
+                                src=item.thumbnail 
+                                alt=item.title
+                                class="inner-img"
+                            )
+                            span #{item.title}
+        
+

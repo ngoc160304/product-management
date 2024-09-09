@@ -1,0 +1,81 @@
+extend ../../layouts/default.pug
+block main 
+    .container 
+        .d-flex
+            include ../../partials/sider-user.pug
+            div(class="content")
+                .box-content
+                    div(class="info-user")
+                        div(class="inner-title") 
+                            h1(class="fs-4") Hồ sơ của tôi
+                            span Quản lí thông tin hồ sơ để bảo vệ tài khoản
+                        div(class="inner-info")
+                            form(
+                                action="/user/update"
+                                method="POST"
+                                class="mt-4 col-6"
+                            )
+                                div(class="input-group mb-3 align-items-center")
+                                    label(class="form-label me-3 col-3" for="fullname") Tên đăng nhập :
+                                    input(
+                                        type="text"
+                                        class="form-control"
+                                        name="fullname"
+                                        id="fullname"
+                                        value=infoUser.fullname
+                                    )
+                                
+                                div(class="input-group mb-3 align-items-center")
+                                    label(class="form-label me-3 col-3" for="email") Email : 
+                                    input(
+                                        type="email"
+                                        class="form-control"
+                                        name="email"
+                                        id="email"
+                                        value=infoUser.email
+                                    )
+                                
+                                div(class="input-group mb-3 align-items-center")
+                                    label(class="form-label me-3 col-3" for="phoneNumber") Số điện thoại :
+                                    input(
+                                        type="text"
+                                        class="form-control"
+                                        name="phone"
+                                        id="phoneNumber"
+                                        value=infoUser.phone
+                                    )
+                                div(class="input-group mb-3 align-items-center")
+                                    label(class="form-label me-3 col-3") Giới tính :
+                                    div(class="form-check me-2")
+                                        input(
+                                            type="radio"
+                                            class="form-check-input" 
+                                            name="gender"
+                                            id="gender-1"
+                                            checked
+                                        ) 
+                                        label(class="form-check-label" for="gender-1") Nam
+                                    div(class="form-check me-2")
+                                        input(
+                                            type="radio"
+                                            class="form-check-input" 
+                                            name="gender"
+                                            id="gender-2"
+                                        ) 
+                                        label(class="form-check-label" for="gender-2") Nữ
+                                    div(class="form-check me-2")
+                                        input(
+                                            type="radio"
+                                            class="form-check-input" 
+                                            name="gender"
+                                            id="gender-3"
+                                        ) 
+                                        label(class="form-check-label" for="gender-3") Khác
+                                div(class="mb-3 d-flex")
+                                    div(class="col-3 me-3")
+                                    button(
+                                        type="submit"
+                                        class="btn btn-danger"
+                                    ) Lưu
+                                    
+                                
